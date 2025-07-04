@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>AI Chat Playground</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div class="top-bar-wrapper collapsed" id="topBarWrapper">
+            <div class="top-bar-header">
+                <button id="toggleTopBar" class="toggle-button">☰</button>
+                <span class="top-bar-title">Zephyr AI</span>
+                <button id="newChatButton" class="new-chat-button">+</button>
+            </div>
+            <div id="chatListContainer" class="chat-list-container"></div>
+        </div>
+
+        <div class="main-content-wrapper">
+            <div class="chat-container">
+                <div class="chat-header">
+                    <h1>AI Chat</h1>
+                </div>
+                <div class="chat-messages" id="chatMessages"></div>
+                <div class="chat-input-area">
+                    <input
+                        type="text"
+                        id="chatInput"
+                        placeholder="Type your message or /image [prompt]..."
+                    />
+                    <button id="sendMessage">Send</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="script.js"></script>
+    </body>
+</html>

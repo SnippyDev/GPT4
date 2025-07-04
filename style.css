@@ -1,0 +1,302 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%; /* Make html and body take full viewport height */
+    width: 100%; /* Make html and body take full viewport width */
+    font-family: "Inter", sans-serif; /* Using Inter font */
+    background-color: #1a1a1a; /* Dark background */
+    color: #e0e0e0; /* Light text for general body */
+    display: flex; /* Use flexbox for stacking top bar and main content */
+    flex-direction: column; /* Stack top bar and main content vertically */
+    box-sizing: border-box; /* Include padding/border in element's total width and height */
+}
+
+.top-bar-wrapper {
+    width: 100%;
+    background-color: #2b2b2b; /* Darker than body, lighter than header */
+    color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    overflow: hidden; /* Hide content when collapsed */
+    transition: height 0.3s ease-out; /* Smooth collapse/expand */
+    flex-shrink: 0; /* Prevent it from shrinking when content grows */
+}
+
+/* Collapsed state for top bar */
+.top-bar-wrapper.collapsed {
+    height: 60px; /* Fixed height when collapsed */
+}
+
+/* Expanded state for top bar */
+.top-bar-wrapper.expanded {
+    height: 200px; /* Or a percentage like 30vh for responsiveness */
+    max-height: 50vh; /* Max height to prevent it from taking too much space */
+    overflow-y: auto; /* Allow scrolling if many chats */
+}
+
+.top-bar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #222222; /* Slightly darker than main top-bar area */
+    border-bottom: 1px solid #333333;
+    flex-shrink: 0; /* Prevent header from shrinking */
+}
+
+.top-bar-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.toggle-button,
+.new-chat-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+    line-height: 1; /* For better vertical alignment of icon */
+}
+.toggle-button:hover,
+.new-chat-button:hover {
+    background-color: #444444;
+}
+
+.chat-list-container {
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Space between chat items */
+}
+
+.chat-item-button {
+    background-color: #3a3a3a; /* Darker background for chat items */
+    color: #e0e0e0;
+    border: none;
+    padding: 10px 15px;
+    text-align: left;
+    border-radius: 8px;
+    cursor: pointer;
+    transition:
+        background-color 0.2s,
+        box-shadow 0.2s;
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Add ellipsis for long names */
+}
+.chat-item-button:hover {
+    background-color: #4c4c4c;
+}
+.chat-item-button.active {
+    background-color: #0056b3; /* Highlight active chat */
+    font-weight: bold;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5); /* Blue outline for active */
+}
+
+.main-content-wrapper {
+    flex-grow: 1; /* Takes remaining vertical space */
+    display: flex; /* Use flexbox to center chat-container horizontally */
+    justify-content: center;
+    align-items: center; /* Vertically align within remaining space */
+    width: 100%; /* Ensure it spans full width */
+    padding: 10px; /* Small padding around the chat container */
+    box-sizing: border-box;
+}
+
+.chat-container {
+    background-color: #2b2b2b; /* Darker container background */
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); /* Darker shadow for contrast */
+    min-width: 100%; /* Take full width of its parent (main-content-wrapper) */
+    max-width: 100%; /* Still limit max width for readability */
+    min-height: 100%; /* Take full height of its parent */
+    max-height: 100%; /* Still limit max height for readability */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Hide scrollbar for the container, messages div will handle it */
+}
+
+.chat-header {
+    background-color: #0056b3; /* Darker blue header */
+    color: white;
+    padding: 15px 20px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    flex-shrink: 0; /* Prevent header from shrinking */
+}
+
+.chat-header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.chat-messages {
+    flex-grow: 1; /* Takes up available space */
+    padding: 20px;
+    overflow-y: auto; /* Scrollable message area */
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Space between messages */
+    background-color: #222222; /* Darker background for messages area */
+}
+
+.message {
+    max-width: 80%;
+    padding: 12px 18px;
+    border-radius: 20px;
+    line-height: 1.4;
+    word-wrap: break-word; /* Ensure long words wrap */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Darker shadow */
+}
+
+.user-message {
+    background-color: #0056b3; /* Darker blue for user messages */
+    color: white;
+    align-self: flex-end; /* Align to the right */
+    border-bottom-right-radius: 5px; /* Sharpen one corner */
+}
+
+.ai-message {
+    background-color: #404040; /* Dark grey for AI messages */
+    color: #e0e0e0; /* Light grey text */
+    align-self: flex-start; /* Align to the left */
+    border-bottom-left-radius: 5px; /* Sharpen one corner */
+}
+
+.message p {
+    margin: 0;
+}
+
+.message img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-top: 5px; /* Space between text and image if both are in a message */
+}
+
+.loading-indicator {
+    font-style: italic;
+    color: #a0a0a0; /* Lighter grey for loading text */
+    align-self: flex-start;
+    padding: 10px 15px;
+    border-radius: 15px;
+    background-color: #333333; /* Darker background for loading indicator */
+}
+
+.error-message {
+    color: #ff6b6b; /* Brighter red for errors */
+    font-weight: bold;
+    align-self: center;
+    text-align: center;
+    background-color: #6b2e2e; /* Darker red background for errors */
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.chat-input-area {
+    display: flex;
+    padding: 15px 20px;
+    border-top: 1px solid #333333; /* Darker border */
+    background-color: #2b2b2b; /* Darker background */
+    gap: 10px;
+    flex-shrink: 0; /* Prevent input area from shrinking */
+}
+
+.chat-input-area input {
+    flex-grow: 1;
+    padding: 12px 15px;
+    border: 1px solid #555555; /* Darker border */
+    background-color: #3a3a3a; /* Darker input background */
+    color: #e0e0e0; /* Light text color */
+    border-radius: 25px; /* Rounded input field */
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.chat-input-area input::placeholder {
+    color: #a0a0a0; /* Lighter placeholder text */
+}
+
+.chat-input-area input:focus {
+    border-color: #007bff; /* Still bright blue on focus */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.chat-input-area button {
+    background-color: #28a745; /* Green send button */
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px; /* Rounded button */
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition:
+        background-color 0.3s ease,
+        transform 0.1s ease;
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.2);
+}
+
+.chat-input-area button:hover {
+    background-color: #218838;
+    transform: translateY(-1px);
+}
+
+.chat-input-area button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(40, 167, 69, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .main-content-wrapper {
+        padding: 0; /* Remove padding on small screens for full coverage */
+    }
+    .chat-container {
+        border-radius: 0; /* No rounded corners on small screens */
+        box-shadow: none; /* No shadow on small screens */
+    }
+    .chat-header {
+        border-radius: 0;
+    }
+    .message {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+    .chat-input-area {
+        padding: 10px 15px;
+    }
+    .chat-input-area input,
+    .chat-input-area button {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+    /* Adjust top bar for small screens */
+    .top-bar-wrapper.collapsed {
+        height: 50px; /* Slightly smaller collapsed height */
+    }
+    .top-bar-header {
+        padding: 8px 15px;
+    }
+    .toggle-button,
+    .new-chat-button {
+        font-size: 1.3rem;
+        padding: 3px 8px;
+    }
+    .top-bar-title {
+        font-size: 1rem;
+    }
+    .chat-list-container {
+        padding: 8px 15px;
+    }
+    .chat-item-button {
+        padding: 8px 12px;
+    }
+}
